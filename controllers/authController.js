@@ -4,16 +4,11 @@ import User from "../models/userModel.js";
 const saltrounds = 10;
 
 export const registerUser = async (req,res) => {
-    console.log("reqqq",req.body)
-    console.log("jjjj")
     try{
-        console.log("iiii")
         const emailcheck=req.body.email;
         const namecheck=req.body.userName;
         const foundEmail = await User.findOne({email:emailcheck});
         const foundName = await User.findOne({userName:namecheck});
-
-        console.log("kkkk")
 
         if(foundEmail) return res.status(400).json({ msg : "Email already exists."});
         if(foundName) return res.status(401).json({ msg : "Username already exists."});
@@ -23,8 +18,6 @@ export const registerUser = async (req,res) => {
             email,
             password
         }=req.body;
-
-        console.log(req.body)
 
         bcrypt.hash(password, saltrounds , async (err, hash) => {            // Helps to hash password
             if (err) {
@@ -37,8 +30,8 @@ export const registerUser = async (req,res) => {
             password:hash
         });
         const user = await newUser.save();
-        console.log(user)
-        const token = null;
+
+        const token = jwt.sign({ id : user._id}, process.env.JWT_SECRET);
         res.status(201).json({user,token}); 
         }
     )
@@ -50,7 +43,6 @@ export const registerUser = async (req,res) => {
 
 
 export const loginUser = async (req,res) => {
-    console.log("jjjj")
     try{
         const { userName , password } = req.body;
         console.log(userName,password)
