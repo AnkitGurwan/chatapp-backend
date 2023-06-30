@@ -26,10 +26,6 @@ const UserSchema = new mongoose.Schema({
         type:String,
         default:"",
     },
-    isUserOnline:{
-        type:Boolean,
-        default:false
-    },
 },{timestamps:true});
 
 const User =mongoose.model("User",UserSchema);
