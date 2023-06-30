@@ -74,7 +74,7 @@ export const getMessages = async (req,res) => {
             };
           });
           console.log("c")
-          res.json(projectedMessages);
+          res.status(200).json(projectedMessages);
     }
     catch(err) {
         res.status(500).json({msg : err.message});
