@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({limit : "30mb" , extended : true}));
 
 const corsOptions = {
   // origin: "http://localhost:3000", 
-  origin: "https://chatapp-xxrn.onrender.com", 
+  origin: "https://chatapp-frontend-blond.vercel.app", 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
   credentials: true
