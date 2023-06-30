@@ -9,6 +9,8 @@ import authRoutes from "./routes/userRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messages.js";
 
+import User from "./models/userModel.js";
+
 
 // Configurations 
 dotenv.config({path:"config/.env"});
@@ -21,8 +23,8 @@ app.use(bodyParser.urlencoded({limit : "30mb" , extended : true}));
 
 
 const corsOptions = {
-  // origin: "http://localhost:3000", 
-  origin: "https://chatapp-frontend-blond.vercel.app", 
+  origin: "http://localhost:3000", 
+  // origin: "https://chatapp-frontend-blond.vercel.app", 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
   credentials: true
@@ -54,7 +56,8 @@ const server = app.listen(process.env.PORT,(req,res,err)=>{
 
 const io = new Server(server, {
   cors: {
-    origin: "https://chatapp-frontend-blond.vercel.app",
+    // origin: "https://chatapp-frontend-blond.vercel.app",
+    origin: "http://localhost:3000", 
     methods: ["GET", "POST"],
   },
 });
@@ -64,6 +67,7 @@ global.onlineUsers = new Map();
 io.on("connection", (socket) => {
   global.chatSocket = socket;
   socket.on("add-user", (userId) => {
+    User.findByIdAndUpdate(userId,{isUserOnline : true});
     onlineUsers.set(userId, socket.id);
   });
 
